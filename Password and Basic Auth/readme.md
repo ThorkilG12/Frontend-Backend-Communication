@@ -1,4 +1,4 @@
-## Apache Login, Basic Security and Access to Files
+## Apache Login, Basic Security and Access to Files.
 **Problem:** When users are authorized through my own login-system, I want the users to get access to files **without** having Apache to prompt them for password (again)
 
 I'm having Apache, PHP and a database running om a windows server.

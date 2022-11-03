@@ -3,6 +3,8 @@
 
 I'm having Apache, PHP and a database running om a windows server.
 
+By using PHP and SESSIONS I can control what users can see or do with the web sites files and with the data from the database. But to combine the password in my user table with the Apache directory listing has not been easy to figure out.
+
 My login-system is home-made, using AJAX and PHP. PHP accessing the backend using PDO. 
 My sites uses SSL in order for accepting password to be sendt between backend and browser in cleartext.
 
@@ -37,11 +39,20 @@ Alias /play "E:\Music\Jukebox\Pop"
   IndexIgnore header.html footer.html favicon.ico .htaccess .ftpquota .DS_Store icons *.log *,v *,t .??* *~ *#
   IndexHeadInsert "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
   AuthType Basic
-  AuthName "G12 Realm"
+  AuthName "My Realm"
   AuthBasicProvider socache dbd
   AuthnCacheProvideFor dbd
   Require valid-user
   AuthDBDUserPWQuery "SELECT password FROM t_users WHERE email = %s"
+</Directory>
+<Directory "D:/apache/htdocs/websitefolder/private">
+	AuthType Basic
+	AuthName "My Realm"
+	AuthBasicProvider socache dbd
+	AuthnCacheProvideFor dbd
+	#AuthnCacheContext my-server
+	Require valid-user
+	AuthDBDUserPWQuery "SELECT password FROM t_users WHERE email = %s"
 </Directory>
 ```  
 If users (who has *not* logged in to my server) hit the server with `<www.myserver.tld>/**play**` they will see the browsers login prompt for Basic Authentification, if they have not logged in using my own login system. Thats fine.
@@ -49,7 +60,6 @@ The server sends a 401 and the browser pops up the built-in login prompt.
 
 On the other hand, if a users has been authenticated using my own system, my javascript will use this code:
 
-(the helper file has to be in a pasword protected)
 ```JAVASCRIPT
 var request = new XMLHttpRequest();
 request.open('GET', 'https://dev.g12.dk/private/createBasicAutHeader.php', false, <email>, <password in cleartext>);
@@ -60,7 +70,7 @@ This will make the browser to create a request header for all requests until the
 
 **Authorization: Basic dGhvxxxxxxxxxxxxxxxxSWhhd2N3NmM=**
 
-the file `createBasicAuyHelper.php` has to be in a protected directory
+the file `createBasicAuyHelper.php` has to be in a protected directory.
 ```PHP
 <?php declare(strict_types=1);
 $rc = 4;

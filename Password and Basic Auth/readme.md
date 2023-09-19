@@ -30,6 +30,22 @@ $pwdCheck = password_verify($password, $data['password']);
 if ($pwdCheck == false) {
 etc etc
 ```
+```INI
+In my Apache conf file I have this:
+DBDriver odbc
+DBDParams DATASOURCE=PostgreSQL
+DBDMin  4
+DBDKeep 8
+DBDMax  20
+DBDExptime 300
+```
+In Apache conf I have enabled, mod_dbd.so, mod_authn_dbd.so and mod_authn_socache.so
+
+On my windows server I have installed the 64bit ODBC driver for Postgres, and there is nothing configured in the driver except the data source name (DSN) which is "PostgreSQL"
+
+This driver uses the default database and the user and password from the windows environment.
+
+
 In my Apache VHOST conf file I have this: (it is the **/play** and the **AuthDBDUserPWQuery** that's interesting)
 ```INI
 Alias /play "E:\Music\Jukebox\Pop"

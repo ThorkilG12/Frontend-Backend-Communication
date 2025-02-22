@@ -1,7 +1,7 @@
 ## Apache Login, Basic Security and Access to Files.
 **Problem:** When users are authorized through my own login-system, I want the users to get access to files **without** having Apache to prompt them for password (again)
 
-I'm having Apache, PHP and a database running om a windows server.
+I'm having Apache, PHP and a database running on a windows server.
 
 By using PHP and SESSIONS I can control what users can see or do with the web sites files and with the data from the database. But to combine the password in my user table with the Apache directory listing has not been easy to figure out.
 

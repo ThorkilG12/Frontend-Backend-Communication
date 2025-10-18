@@ -88,7 +88,7 @@ BEGIN
             INSERT INTO public.%I
             SELECT 
                 ($1).*,
-                nextval(''%I_history_id_seq''),
+                nextval(''%I_history_history_id_seq''),
                 %L AS action_type,
                 %L AS modified_by_session_user,
                 NOW() AS modified,
@@ -104,7 +104,7 @@ BEGIN
             INSERT INTO public.%I
             SELECT 
                 ($1).*,
-                nextval(''%I_history_id_seq''),
+                nextval(''%I_history_history_id_seq''),
                 %L AS action_type,
                 %L AS modified_by_session_user,
                 NOW() AS modified,

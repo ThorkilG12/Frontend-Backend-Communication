@@ -39,7 +39,7 @@ DBDKeep 8
 DBDMax  20
 DBDExptime 300
 ```
-In Apache conf I have enabled, mod_dbd.so, mod_authn_dbd.so and mod_authn_socache.so
+In Apache conf I have enabled, mod_dbd.so, mod_authn_dbd.so, mod_authn_socache.so and mod_lua.so
 
 On my windows server I have installed the 64bit ODBC driver for Postgres, and there is nothing configured in the driver except the data source name (DSN) which is "PostgreSQL"
 
@@ -54,6 +54,7 @@ Alias /play "E:\Music\Jukebox\Pop"
   IndexOptions IgnoreCase FancyIndexing FoldersFirst NameWidth=* DescriptionWidth=* SuppressHTMLPreamble
   IndexIgnore header.html footer.html favicon.ico .htaccess .ftpquota .DS_Store icons *.log *,v *,t .??* *~ *#
   IndexHeadInsert "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+  LuaHookAccessChecker "C:/Apache24/conf/lua/php_session_or_basic.lua" check_access
   AuthType Basic
   AuthName "My Realm"
   AuthBasicProvider socache dbd
@@ -61,16 +62,8 @@ Alias /play "E:\Music\Jukebox\Pop"
   Require valid-user
   AuthDBDUserPWQuery "SELECT password FROM t_users WHERE email = %s"
 </Directory>
-<Directory "D:/apache/htdocs/websitefolder/private">
-	AuthType Basic
-	AuthName "My Realm"
-	AuthBasicProvider socache dbd
-	AuthnCacheProvideFor dbd
-	#AuthnCacheContext my-server
-	Require valid-user
-	AuthDBDUserPWQuery "SELECT password FROM t_users WHERE email = %s"
-</Directory>
 ```  
+
 If users (who has *not* logged in to my server) hit the server with `<www.myserver.tld>/**play**` they will see the browsers login prompt for Basic Authentification, if they have not logged in using my own login system. Thats fine.
 The server sends a 401 and the browser pops up the built-in login prompt.
 
